@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-learning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch":"npm run server.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benthunder/nodejs-learning.git"
+  },
+  "keywords": [
+    "Nodejs"
+  ],
+  "author": "Ben",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benthunder/nodejs-learning/issues"
+  },
+  "homepage": "https://github.com/benthunder/nodejs-learning#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.2"
+  }
+}
