@@ -2,17 +2,18 @@
   "name": "nodejs-learning",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "npm run server.js --watch"
+    "watch": "node server.js --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/benthunder/nodejs-learning.git"
   },
   "keywords": [
-    "Nodejs"
+    "Nodejs",
+    "chatgpt",
+    "translate"
   ],
   "author": "Ben",
   "license": "ISC",
@@ -22,7 +23,11 @@
   "homepage": "https://github.com/benthunder/nodejs-learning#readme",
   "dependencies": {
     "chatgpt": "^5.2.5",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "mongoose": "^7.5.2"
+    "helmet": "^7.0.0",
+    "mongoose": "^7.6.4",
+    "morgan": "^1.10.0"
   }
 }

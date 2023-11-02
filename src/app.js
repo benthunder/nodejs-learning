@@ -13,5 +13,22 @@ app.use(
         extended: true,
     })
 );
+require("./dbs/mogodb.db");
+
+app.use("/", require("./routes"));
+app.use((req, res, next) => {
+    const error = new Error("Not Found");
+    error.status = 404;
+    next(error);
+});
+
+app.use((error, req, res, next) => {
+    const status = error.status || 500;
+    return res.status(status).json({
+        status: "error",
+        code: status,
+        message: error.message || "Interal error",
+    });
+});
 
 module.exports = app;
