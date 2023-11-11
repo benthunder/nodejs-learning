@@ -25,7 +25,7 @@ class SuccessResponse {
     }
 
     send(res, header = {}) {
-        return res.status(this.statusCode).send(this);
+        return res.status(this.statusCode).send(this.message);
     }
 }
 

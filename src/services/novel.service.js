@@ -1,7 +1,9 @@
 "use strict"
 
 class NovelService {
-    getLink = function (novel) { 
-        
+    getLink = async function (novel) {
+
     }
 }
+
+module.exports = NovelService;

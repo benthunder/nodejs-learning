@@ -6,9 +6,9 @@ class Database {
         this.connect();
     }
 
-    connect(type = "mongo") {
+    async connect(type = "mongo") {
         if (type == "mongo") {
-            mongoose
+            await mongoose
                 .connect(
                     `mongodb://${configs.db.host}:${configs.db.port}/${configs.db.name}`,
                     {
@@ -18,7 +18,7 @@ class Database {
                 .then((_) => {
                     console.log("Connect Mongo DB");
                 })
-                .catch((err) => console.log(`mongodb://${configs.db.host}:${configs.db.port}/${configs.db.name}`));
+                .catch((err) => console.log(err));
         }
     }
 

@@ -13,13 +13,13 @@ class ErrorResponse extends Error {
         super(messages);
         this.status = status;
     }
-    
+
     json(res, header = {}) {
         return res.status(this.statusCode).json(this);
     }
 
     send(res, header = {}) {
-        return res.status(this.statusCode).send(this);
+        return res.status(this.statusCode).send(this.message);
     }
 }
 
