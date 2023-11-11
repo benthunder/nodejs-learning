@@ -13,6 +13,9 @@ class Database {
                     `mongodb://${configs.db.host}:${configs.db.port}/${configs.db.name}`,
                     {
                         maxPoolSize: 50,
+                        authSource: configs.db.userName,
+                        user: configs.db.userName,
+                        pass: configs.db.userPW,
                     }
                 )
                 .then((_) => {

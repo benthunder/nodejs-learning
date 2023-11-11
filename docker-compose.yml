@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+    database:
+        container_name: mongo-nodejs
+        image: mongo
+
+        environment:
+            - MONGO_INITDB_DATABASE=node-novel
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=admin
+        ports:
+            - '27017-27019:27017-27019'
+
+        networks:
+            - webnet-nodejs
+
+    redis:
+        container_name: redis-nodejs
+        image: redis:6.2
+        networks:
+            - webnet-nodejs
+
+networks:
+    webnet-nodejs:
+        name: webnet-nodejs
+        driver: bridge

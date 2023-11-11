@@ -14,6 +14,7 @@ const modelSchema = new Schema({
         ref: "Novel",
     },
     name: { type: String, require: true },
+    title: { type: String, default: "" },
     slug: { type: String, require: true, default: "" },
     path: {
         type: String,
@@ -37,8 +38,8 @@ modelSchema.pre('save', function (next) {
 });
 
 modelSchema.post('save', async function (doc, next) {
-    if (!fs.existsSync(`src/storages/${doc.path}/chap-${doc._id}.html`)) {
-        fs.writeFileSync(`src/storages/${doc.path}/chap-${doc._id}.html`, "Helo chap " + doc._id);
+    if (!fs.existsSync(`src/storages/${doc.path}-${doc.novel._id}/chap-${doc.slug}.html`)) {
+        fs.writeFileSync(`src/storages/${doc.path}-${doc.novel._id}/chap-${doc.slug}.html`, "Helo chap " + doc._id);
     }
     next();
 });
