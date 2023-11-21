@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "watch": "node server.js --watch"
+    "watch": "node server.js --watch",
+    "start": "pm2 start server.js --name app-novel --watch -f"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "jsdom": "^22.1.0",
     "mongoose": "^7.6.4",
     "morgan": "^1.10.0",
+    "openai": "^4.17.4",
     "slugify": "^1.6.6"
   }
 }

@@ -70,6 +70,15 @@ class NovelService {
             throw new Error("Invalid chaper");
         }
     };
+
+    static async findAllNovel({ query = {}, limit = 50, skip = 0, sort = { update_at: -1 } }) {
+        return await NovelModel.find(query)
+            .sort(sort)
+            .skip(skip)
+            .limit(limit)
+            .lean()
+            .exec();
+    }
 }
 
 module.exports = NovelService;
