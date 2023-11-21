@@ -13,10 +13,12 @@ class SuccessResponse {
         message,
         statusCode = StatusCode.OK,
         reason = ReasonStatusCode.OK,
+        data = {},
         metadata = {},
     }) {
         this.message = !message ? reason : message;
         this.statusCode = statusCode;
+        this.data = data;
         this.metadata = metadata;
     }
 
@@ -34,12 +36,14 @@ class OK extends SuccessResponse {
         message,
         statusCode = StatusCode.OK,
         reason = ReasonStatusCode.OK,
+        data = {},
         metadata = {},
     }) {
         super({
             message,
             statusCode,
             reason,
+            data,
             metadata,
         });
     }
@@ -50,12 +54,14 @@ class CREATED extends SuccessResponse {
         message,
         statusCode = StatusCode.CREATED,
         reason = ReasonStatusCode.CREATED,
+        data = {},
         metadata = {},
     }) {
         super({
             message,
             statusCode,
             reason,
+            data,
             metadata,
         });
     }

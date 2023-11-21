@@ -72,12 +72,22 @@ class NovelService {
     };
 
     static async findAllNovel({ query = {}, limit = 50, skip = 0, sort = { update_at: -1 } }) {
-        return await NovelModel.find(query)
+        let result = await NovelModel.find(query)
             .sort(sort)
             .skip(skip)
             .limit(limit)
             .lean()
             .exec();
+
+        let totalRecord = await NovelModel.count();
+        return {
+            data: result,
+            metadata: {
+                totalRecord: totalRecord,
+                totalPage: Math.round(totalRecord / limit),
+                currentPage: skip != 0 ? Math.round(limit / skip) + 1 : 1
+            }
+        }
     }
 }
 
