@@ -18,6 +18,8 @@ app.use(
 require("./dbs/mogodb.db");
 
 app.use('/read', express.static(path.join(__dirname, 'storages')));
+app.use('/asset/style', express.static(path.join(__dirname, 'public/css')));
+app.use('/asset/script', express.static(path.join(__dirname, 'public/js')));
 
 app.use("/", require("./routes"));
 app.use((req, res, next) => {

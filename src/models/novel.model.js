@@ -30,6 +30,9 @@ modelSchema.post('save', function (doc, next) {
     next();
 })
 
+modelSchema.method.getFullPath = function () {
+    return `${this.path}-${this._id}`;
+}
 
 
 module.exports = model(DOCUMENT_NAME, modelSchema);

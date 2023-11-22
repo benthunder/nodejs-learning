@@ -20,6 +20,9 @@ const modelSchema = new Schema({
         type: String,
         Comment: 'Novel parent path',
     },
+    url: {
+        type: String,
+    },
     order_priority: {
         Type: Number,
     },
@@ -34,6 +37,7 @@ const modelSchema = new Schema({
 
 modelSchema.pre('save', function (next) {
     this.slug = slugify(this.name, { lower: true });
+    this.url = `${this.path}-${this.novel._id}/chap-${this.slug}.html`;
     next();
 });
 

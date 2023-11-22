@@ -54,25 +54,9 @@ class NovelService {
         return novelEpisodes;
     };
 
-
-    static async getNextEpisode({ novel_id, episode_id }) {
-        if (!novel_id || !episode_id) {
-            throw new Error("Invalid chaper");
-        }
-    };
-    static async getPrevEpisode({ novel_id, episode_id }) {
-        if (!novel_id || !episode_id) {
-            throw new Error("Invalid chaper");
-        }
-    };
-    static async getEpisode({ novel_id, episode_id }) {
-        if (!novel_id || !episode_id) {
-            throw new Error("Invalid chaper");
-        }
-    };
-
-    static async findAllNovel({ query = {}, limit = 50, skip = 0, sort = { update_at: -1 } }) {
+    static async findAllNovel({ query = {}, limit = 50, skip = 0, sort = { update_at: -1 }, populate = "" }) {
         let result = await NovelModel.find(query)
+            .select(populate)
             .sort(sort)
             .skip(skip)
             .limit(limit)
@@ -80,6 +64,26 @@ class NovelService {
             .exec();
 
         let totalRecord = await NovelModel.count();
+        return {
+            data: result,
+            metadata: {
+                totalRecord: totalRecord,
+                totalPage: Math.round(totalRecord / limit),
+                currentPage: skip != 0 ? Math.round(limit / skip) + 1 : 1
+            }
+        }
+    }
+
+    static async findAllEpisode({ query = {}, limit = 50, skip = 0, sort = { createdAt: 1 }, populate = "title slug path url" }) {
+        let result = await NovelEpisodeModel.find(query)
+            .select(populate)
+            .sort(sort)
+            .skip(skip)
+            .limit(limit)
+            .lean()
+            .exec();
+
+        let totalRecord = await NovelEpisodeModel.count();
         return {
             data: result,
             metadata: {

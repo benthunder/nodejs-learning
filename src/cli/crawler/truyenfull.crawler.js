@@ -1,20 +1,17 @@
-const dbClient = require('../../dbs/mogodb.db');
 const novelService = require("../../services/novel.service");
-const chatgptService = require("../../services/chatgpt.service");
+// const chatgptService = require("../../services/chatgpt.service");
 const axios = require("axios");
 const { JSDOM } = require('jsdom');
 class TruyenFullCrawler {
-
-
     static totalPage = 27;
     static currentPage = 1;
     static url = (page) => `https://truyenfull.com/api/chapters/32650/${page}/50`;
-
     static urlStoryContent = (chapter) => `https://truyenfull.com/dai-quan-gia-la-ma-hoang-c/chuong-${chapter}.html`;
-
+    static novel;
 
     static crawlerUrls = async function () {
         let novel = await novelService.create({ "name": "Đại quản gia là ma hoàng" });
+        TruyenFullCrawler.novel = novel;
         while (TruyenFullCrawler.currentPage <= TruyenFullCrawler.totalPage) {
             let results = await axios.get(TruyenFullCrawler.url(TruyenFullCrawler.currentPage));
             let items = results.data.items;
@@ -36,11 +33,9 @@ class TruyenFullCrawler {
     }
 
     static crawlerContent = async function () {
-        let listEpisodes = await novelService.getAllEpisode('654fcf831ca604fc9eb1eb83', {
+        let listEpisodes = await novelService.getAllEpisode(TruyenFullCrawler.novel._id, {
             'attributes.crawlerStatus': 'none'
         });
-
-
         for (let i = 0; i <= listEpisodes.length; i++) {
             try {
                 let result = await axios.get(TruyenFullCrawler.urlStoryContent(listEpisodes[i].name), {
@@ -74,10 +69,9 @@ class TruyenFullCrawler {
 
 
     static async run() {
-        // await TruyenFullCrawler.crawlerUrls();
-        // await TruyenFullCrawler.crawlerContent();
-
-        await chatgptService.translate();
+        await TruyenFullCrawler.crawlerUrls();
+        await TruyenFullCrawler.crawlerContent();
+        // await chatgptService.translate();
     }
 }
 

@@ -1,10 +1,19 @@
+const Program = require('commander');
 const CrawlerRegistry = require('./src/cli/registry.crawler');
+require("./src/dbs/mogodb.db");
 async function run() {
-    let processArgs = process.argv.slice(2);
+    Program
+        .version('0.1.0');
 
-    await CrawlerRegistry.crawler['truyenfull'].run();
-
-    process.exit();
+    Program
+        .command('crawler [name]')
+        .description("Crawler novel")
+        .action(async function (name) {
+            let crawler = CrawlerRegistry.crawler[name.toLowerCase()];
+            await crawler.run();
+            await terminate(true);
+        })
+    Program.parse(process.argv);
 }
 
 run();
