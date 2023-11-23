@@ -1,1 +1,11 @@
-{for metadata.totalPage }
+<div class="pagination">
+    <ul>
+        {% for page in range (1,metadata.totalPage+1) %}
+        <li class="{% if page == metadata.currentPage %} active {% endif %}">
+            <a href="{{metadata.paginationUrl}}?page={{page}}">
+                {{page}}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

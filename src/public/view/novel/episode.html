@@ -1,0 +1,11 @@
+<div class="col-12 box-eposiode">
+    <ul>
+        {%for item in data %}
+        <li>
+            <a href="{{host_url}}/read/{{item.url}}">
+                {{item.title}}
+            </a>
+        </li>
+        {%endfor%}
+    </ul>
+</div>

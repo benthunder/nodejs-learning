@@ -77,8 +77,10 @@ class NovelService {
         }
     }
 
-    static async findAllEpisode({ query = {}, limit = 50, skip = 0, sort = { createdAt: 1 }, populate = "" }) {
+    static async findAllEpisode({ query = {}, page = 1, sort = { createdAt: 1 }, populate = "novel" }) {
 
+        let limit = 50, skip = 0;
+        skip = page * limit;
         let result = await NovelEpisodeModel.find(query)
             .select(populate)
             .sort(sort)
@@ -93,7 +95,7 @@ class NovelService {
             metadata: {
                 totalRecord: totalRecord,
                 totalPage: Math.round(totalRecord / limit),
-                currentPage: skip != 0 ? Math.round(limit / skip) + 1 : 1,
+                currentPage: page,
             }
         }
     }

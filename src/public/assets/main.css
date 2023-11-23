@@ -5,3 +5,29 @@
 .box-novel .img {
     border: 1px blue solid;
 }
+
+.pagination ul li {
+    list-style-type: none;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.pagination ul li.active a {
+    background: #438fb0;
+    color: white;
+}
+
+.pagination ul li a {
+    min-width: 50px;
+    min-height: 20px;
+    line-height: 20px;
+    background: white;
+    border: 1px grey solid;
+    margin: 0px;
+    text-align: center;
+    padding: 5px;
+    display: block;
+    background: white;
+    color: black;
+    text-decoration: none;
+}

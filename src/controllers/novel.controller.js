@@ -2,10 +2,10 @@
 
 const NovelService = require('../services/novel.service');
 const { OK } = require('../core/response-success.core');
+const configs = require('../configs/app.config');
 class NovelController {
     static list = async (req, res, next) => {
         let { data, metadata } = await NovelService.findAllNovel(req.body);
-        console.log(data, metadata);
         res.render("home.html", { title: "Novel online", data, metadata });
     }
 
@@ -20,8 +20,12 @@ class NovelController {
             req.body.query = { novel: novelId }
         }
 
-        req.body.populate = "-_id title slug path url";
+        req.body.populate = "-_id title slug path url novel";
+        if (req.query.page) {
+            req.body.page = req.query.page;
+        }
         let { data, metadata } = await NovelService.findAllEpisode(req.body);
+        metadata.paginationUrl = configs.hostUrl + '/novel/' + novelId;
         res.render("detail.html", { title: novel.name, data, metadata });
     }
 }
