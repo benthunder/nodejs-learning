@@ -80,7 +80,7 @@ class NovelService {
     static async findAllEpisode({ query = {}, page = 1, sort = { createdAt: 1 }, populate = "novel" }) {
 
         let limit = 50, skip = 0;
-        skip = page * limit;
+        skip = (page - 1) * limit;
         let result = await NovelEpisodeModel.find(query)
             .select(populate)
             .sort(sort)
