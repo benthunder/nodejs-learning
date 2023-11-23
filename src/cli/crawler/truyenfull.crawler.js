@@ -70,11 +70,11 @@ class TruyenFullCrawler {
                     "mode": "cors",
                     "credentials": "include"
                 });
-                const $ = await cheerio.load(result.data);
-                await $('script').remove();
-                await $('style').remove();
-                await $('noscript').remove();
-                await $('#chapter-c div').remove();
+                const $ = cheerio.load(result.data);
+                $('script').remove();
+                $('style').remove();
+                $('noscript').remove();
+                $('#chapter-c div').remove();
                 let content = $('#chapter-c').html();
                 await novelService.updateContentForEpisode(listEpisodes[i], content);
             } catch (e) {
@@ -92,3 +92,4 @@ class TruyenFullCrawler {
 }
 
 module.exports = TruyenFullCrawler;
+// Example -> command node cli.js crawler truyenfull 19421 "ngao-the-dan-than" "NGẠO THẾ ĐAN THẦN" 77 "https://truyenfull.vn/ngao-the-dan-than/"
