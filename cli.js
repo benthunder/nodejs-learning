@@ -11,7 +11,7 @@ async function run() {
         .action(async function (name) {
             let crawler = CrawlerRegistry.crawler[name.toLowerCase()];
             await crawler.run();
-            await terminate(true);
+            process.exit();
         })
     Program.parse(process.argv);
 }

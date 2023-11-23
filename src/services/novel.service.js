@@ -3,6 +3,9 @@ const NovelEpisodeModel = require("../models/novel-episode.model");
 const fs = require('fs');
 
 class NovelService {
+    static async findById(id) {
+        return await NovelModel.findById(id);
+    }
     static async createNewWithEpisode(
         novelData = { name: "", attributes: {} },
         episodeData = { name: "Introdution", attributes: {} }
@@ -74,7 +77,8 @@ class NovelService {
         }
     }
 
-    static async findAllEpisode({ query = {}, limit = 50, skip = 0, sort = { createdAt: 1 }, populate = "title slug path url" }) {
+    static async findAllEpisode({ query = {}, limit = 50, skip = 0, sort = { createdAt: 1 }, populate = "" }) {
+
         let result = await NovelEpisodeModel.find(query)
             .select(populate)
             .sort(sort)
@@ -89,7 +93,7 @@ class NovelService {
             metadata: {
                 totalRecord: totalRecord,
                 totalPage: Math.round(totalRecord / limit),
-                currentPage: skip != 0 ? Math.round(limit / skip) + 1 : 1
+                currentPage: skip != 0 ? Math.round(limit / skip) + 1 : 1,
             }
         }
     }

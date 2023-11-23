@@ -1,0 +1,7 @@
+.box-novel {
+    border: 1px red solid;
+}
+
+.box-novel .img {
+    border: 1px blue solid;
+}

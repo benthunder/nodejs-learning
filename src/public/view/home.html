@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <h2>My Novel</h2>
+    </div>
+
+    <div class="row">
+        {%for item in data %}
+        <div class="col-3 box-novel">
+            <a href="{{host_url}}/novel/{{item._id}}">
+                <div class="img">
+                    <img src="" alt="">
+                </div>
+                <div class="title">
+                    {{item.name}}
+                </div>
+            </a>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}
