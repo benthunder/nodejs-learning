@@ -1,16 +1,28 @@
 const novelService = require("../../services/novel.service");
 // const chatgptService = require("../../services/chatgpt.service");
 const axios = require("axios");
-const { JSDOM } = require('jsdom');
+const cheerio = require('cheerio');
 class TruyenFullCrawler {
+    static slug;
     static totalPage = 27;
     static currentPage = 1;
-    static url = (page) => `https://truyenfull.com/api/chapters/32650/${page}/50`;
-    static urlStoryContent = (chapter) => `https://truyenfull.com/dai-quan-gia-la-ma-hoang-c/chuong-${chapter}.html`;
+    static url = (page) => `https://truyenfull.com/api/chapters/${TruyenFullCrawler.novelId}/${page}/50`;
+    static urlStoryContent = (chapter) => `https://truyenfull1.com/${TruyenFullCrawler.slug}/chuong-${chapter}.html`;
+    static name;
     static novel;
+    static referrer;
+
+    static setData = async function ({ novelId, slug, name, totalPage, referrer = "" }) {
+        TruyenFullCrawler.novelId = novelId;
+        TruyenFullCrawler.slug = slug;
+        TruyenFullCrawler.totalPage = totalPage;
+        TruyenFullCrawler.name = name;
+        TruyenFullCrawler.referrer = referrer;
+        return TruyenFullCrawler;
+    }
 
     static crawlerUrls = async function () {
-        let novel = await novelService.create({ "name": "Đại quản gia là ma hoàng" });
+        let novel = await novelService.create({ "name": TruyenFullCrawler.name });
         TruyenFullCrawler.novel = novel;
         while (TruyenFullCrawler.currentPage <= TruyenFullCrawler.totalPage) {
             let results = await axios.get(TruyenFullCrawler.url(TruyenFullCrawler.currentPage));
@@ -51,18 +63,22 @@ class TruyenFullCrawler {
                         "sec-fetch-user": "?1",
                         "upgrade-insecure-requests": "1"
                     },
-                    "referrer": "https://truyenfull.com/dai-quan-gia-la-ma-hoang-c-f1.32650/?gad_source=1&gclid=CjwKCAiA6byqBhAWEiwAnGCA4EjNgVRSC4DTCrLO8P8M-GJYDZ1_ZqearzVq8TjDPq3dKsIOmVPgXRoCjecQAvD_BwE",
+                    "referrer": TruyenFullCrawler.referrer,
                     "referrerPolicy": "strict-origin-when-cross-origin",
                     "body": null,
                     "method": "GET",
                     "mode": "cors",
                     "credentials": "include"
                 });
-                let dom = new JSDOM(result.data);
-                let content = dom.window.document.getElementById('chapter-c').innerHTML;
+                const $ = await cheerio.load(result.data);
+                await $('script').remove();
+                await $('style').remove();
+                await $('noscript').remove();
+                await $('#chapter-c div').remove();
+                let content = $('#chapter-c').html();
                 await novelService.updateContentForEpisode(listEpisodes[i], content);
             } catch (e) {
-                console.log(i);
+                console.log({ i, url: TruyenFullCrawler.urlStoryContent(listEpisodes[i].name), err: e.message });
             }
         }
     }
