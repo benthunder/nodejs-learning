@@ -23,21 +23,35 @@ class NovelService {
     }
 
     static async create(
-        novelData = { name: "", attributes: {} }
+        novelData = {
+            name: "", attributes: {
+                crawler: {
+                    url: '',
+                    id: '',
+                    status: '',
+                }
+            }
+        }
     ) {
-        let newNovel = await NovelModel(novelData).save();
+        let novel = await NovelModel.findOne({
+            "attributes.crawler.url": novelData.attributes.crawler.url,
+            "attributes.crawler.id": novelData.attributes.crawler.id
+        }).lean();
 
-        return newNovel;
+        if (!novel) {
+            novel = await NovelModel(novelData).save();
+        }
+
+        return novel;
     }
 
     static async assignNewEpisode(novel_id, episodeData = { name: "", path: "", novel: null }) {
-        let novelFound = await NovelEpisodeModel.findOne({ name: episodeData.name, novel: novel_id }).lean();
-        if (novelFound) {
-            return novelFound;
+        let episode = await NovelEpisodeModel.findOne({ name: episodeData.name, novel: novel_id }).lean();
+        if (!episode) {
+            episode = await NovelEpisodeModel({ ...episodeData, novel: novel_id }).save();
         }
 
-        let newNovelEpisode = await NovelEpisodeModel({ ...episodeData, novel: novel_id }).save();
-        return newNovelEpisode;
+        return episode;
     }
 
     static async updateContentForEpisode(eposiode, content) {
@@ -86,15 +100,14 @@ class NovelService {
             .sort(sort)
             .skip(skip)
             .limit(limit)
-            .lean()
-            .exec();
+            .lean();
 
-        let totalRecord = await NovelEpisodeModel.count();
+        let totalRecord = await NovelEpisodeModel.count(query);
         return {
             data: result,
             metadata: {
                 totalRecord: totalRecord,
-                totalPage: Math.round(totalRecord / limit),
+                totalPage: Math.round(totalRecord / limit) + 1,
                 currentPage: page,
             }
         }

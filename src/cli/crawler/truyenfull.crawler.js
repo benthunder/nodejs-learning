@@ -4,7 +4,7 @@ const axios = require("axios");
 const cheerio = require('cheerio');
 class TruyenFullCrawler {
     static slug;
-    static totalPage = 27;
+    static totalPage = 0;
     static currentPage = 1;
     static url = (page) => `https://truyenfull.com/api/chapters/${TruyenFullCrawler.novelId}/${page}/50`;
     static urlStoryContent = (chapter) => `https://truyenfull1.com/${TruyenFullCrawler.slug}/chuong-${chapter}.html`;
@@ -18,11 +18,18 @@ class TruyenFullCrawler {
         TruyenFullCrawler.totalPage = totalPage;
         TruyenFullCrawler.name = name;
         TruyenFullCrawler.referrer = referrer;
+
+        TruyenFullCrawler.attributes = {
+            crawler: {
+                url: referrer,
+                id: novelId,
+            }
+        };
         return TruyenFullCrawler;
     }
 
     static crawlerUrls = async function () {
-        let novel = await novelService.create({ "name": TruyenFullCrawler.name });
+        let novel = await novelService.create({ "name": TruyenFullCrawler.name, attributes: TruyenFullCrawler.attributes });
         TruyenFullCrawler.novel = novel;
         while (TruyenFullCrawler.currentPage <= TruyenFullCrawler.totalPage) {
             let results = await axios.get(TruyenFullCrawler.url(TruyenFullCrawler.currentPage));
@@ -48,7 +55,7 @@ class TruyenFullCrawler {
         let listEpisodes = await novelService.getAllEpisode(TruyenFullCrawler.novel._id, {
             'attributes.crawlerStatus': 'none'
         });
-        for (let i = 0; i <= listEpisodes.length; i++) {
+        for (let i = 0; i < listEpisodes.length; i++) {
             try {
                 let result = await axios.get(TruyenFullCrawler.urlStoryContent(listEpisodes[i].name), {
                     "headers": {
@@ -78,7 +85,7 @@ class TruyenFullCrawler {
                 let content = $('#chapter-c').html();
                 await novelService.updateContentForEpisode(listEpisodes[i], content);
             } catch (e) {
-                console.log({ i, url: TruyenFullCrawler.urlStoryContent(listEpisodes[i].name), err: e.message });
+                console.log({ i, url: TruyenFullCrawler.urlStoryContent(listEpisodes[i]), err: e.message });
             }
         }
     }

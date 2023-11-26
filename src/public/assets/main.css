@@ -1,9 +1,52 @@
-.box-novel {
-    border: 1px red solid;
-}
+.box-novel {}
 
 .box-novel .img {
-    border: 1px blue solid;
+    position: relative;
+    text-align: center;
+    margin: auto;
+    -moz-perspective: 300px;
+    -moz-transform: rotateY(-3deg);
+    -webkit-transform: perspective(300) rotateY(-3deg);
+    box-shadow: 5px 5px 20px #333;
+    display: inline-block;
+}
+
+.box-novel .title {
+    max-width: 225px;
+    position: relative;
+    /* background: black; */
+    top: -50%;
+    text-align: left;
+    padding: 10px;
+    width: auto;
+    background: #00000085;
+    color: white;
+    font-weight: bold;
+}
+
+.box-novel .img::after {
+    width: 5%;
+    left: 100%;
+    background-color: #efefef;
+    box-shadow: inset 0 0 5px #aaa;
+    -moz-transform: rotateY(20deg);
+    -webkit-transform: perspective(300) rotateY(20deg);
+    position: absolute;
+    top: 2%;
+    height: 96%;
+    content: " ";
+    z-index: -1;
+}
+
+.box-novel .img::before {
+    position: absolute;
+    top: 2%;
+    height: 96%;
+    content: " ";
+    z-index: -1;
+    width: 100%;
+    left: 7.5%;
+    background-color: #000;
 }
 
 .pagination ul li {

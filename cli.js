@@ -11,7 +11,6 @@ async function run() {
             let crawler = CrawlerRegistry.crawler[crawlerName.toLowerCase()];
             await crawler.setData({ novelId, slug, name, totalPage, referrer });
             await crawler.run();
-            console.log(crawler);
             process.exit();
         })
     Program.parse(process.argv);
