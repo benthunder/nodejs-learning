@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "watch": "node --watch server.js",
-    "start": "pm2 start --name app-novel --watch server.js",
+    "start": "pm2 start server.js --watch -f --name app-novel",
     "stop": "pm2 stop app-novel",
     "crawler": "node cli.js crawler"
   },
