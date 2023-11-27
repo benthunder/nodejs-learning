@@ -22,7 +22,7 @@ require("./dbs/mogodb.db");
 nunjucks.configure(path.join(__dirname, 'public/view'), {
     autoescape: true,
     express: app
-}).addGlobal("host_url", 'http://localhost:3000');
+}).addGlobal("host_url", process.env.HOST_URL);
 
 app.use('/read', express.static(path.join(__dirname, 'storages')));
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
