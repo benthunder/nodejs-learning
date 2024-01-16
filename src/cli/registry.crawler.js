@@ -1,5 +1,6 @@
 "use strict"
 const TruyenFullCrawler = require('./crawler/truyenfull.crawler');
+const TruyenMoiVnCrawler = require('./crawler/truyenmoivn.crawler');
 
 class CrawlerRegistry {
     static crawler = {}
@@ -13,5 +14,6 @@ class CrawlerRegistry {
 }
 
 CrawlerRegistry.registerCrawler('truyenfull', TruyenFullCrawler)
+CrawlerRegistry.registerCrawler('truyenmoivn', TruyenMoiVnCrawler)
 
 module.exports = CrawlerRegistry;

@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/benthunder/nodejs-learning#readme",
   "dependencies": {
+    "@google-cloud/translate": "^8.0.2",
     "axios": "^1.6.1",
     "chatgpt": "^5.2.5",
     "cheerio": "^1.0.0-rc.12",

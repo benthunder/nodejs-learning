@@ -50,7 +50,6 @@ class NovelService {
         if (!episode) {
             episode = await NovelEpisodeModel({ ...episodeData, novel: novel_id }).save();
         }
-
         return episode;
     }
 

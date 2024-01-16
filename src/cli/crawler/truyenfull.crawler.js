@@ -1,5 +1,4 @@
 const novelService = require("../../services/novel.service");
-// const chatgptService = require("../../services/chatgpt.service");
 const axios = require("axios");
 const cheerio = require('cheerio');
 class TruyenFullCrawler {
@@ -94,7 +93,6 @@ class TruyenFullCrawler {
     static async run() {
         await TruyenFullCrawler.crawlerUrls();
         await TruyenFullCrawler.crawlerContent();
-        // await chatgptService.translate();
     }
 }
 
